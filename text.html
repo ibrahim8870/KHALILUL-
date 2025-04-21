@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Cup Calculator - Updated Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f4f1;
+        }
+        .regular-coffee {
+            background-color: #fff8e6;
+        }
+        .cappuccino-coffee {
+            background-color: #f9f1ff;
+        }
+        .cold-coffee {
+            background-color: #eaf7ff;
+        }
+        .highlight-xl {
+            background-color: #fff0e6;
+            border-left: 4px solid #e67e22;
+        }
+        .highlight-cappuccino-l {
+            background-color: #f5edff;
+            border-left: 4px solid #9b59b6;
+        }
+        .highlight-cold {
+            background-color: #e6f7ff;
+            border-left: 4px solid #3498db;
+        }
+        .highlight-cold-xl {
+            background-color: #e6f7ff;
+            border-left: 4px solid #2980b9;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+        }
+        .coffee-header {
+            border-bottom: 2px solid;
+        }
+        .regular-header {
+            border-color: #e67e22;
+            background-color: #fff4e3;
+        }
+        .cappuccino-header {
+            border-color: #9b59b6;
+            background-color: #f5eeff;
+        }
+        .cold-header {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        table {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        thead th {
+            font-weight: 600;
+        }
+        .factor-15 {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .factor-25 {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .factor-50 {
+            color: #9b59b6;
+            font-weight: bold;
+        }
+        .total-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input {
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="py-8 px-4 min-h-screen">
+    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Coffee Cup Calculator</h1>
+            <p class="text-gray-600">Calculate totals based on different cup sizes and multiplication factors</p>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 p-3 rounded coffee-header regular-header flex items-center">
+                <i class="fas fa-coffee mr-2"></i> Regular Coffee Cup
+            </h2>
+            
+            <div class="overflow-x-auto regular-coffee rounded-lg p-4">
+                <table class="w-full border-collapse bg-white rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border p-3 w-1/6">Size</th>
+                            <th class="border p-3 w-1/4">Column 1 (Value A)</th>
+                            <th class="border p-3 w-1/4">Column 2 (Value B)</th>
+                            <th class="border p-3 w-1/6">Multiplier</th>
+                            <th class="border p-3 w-1/4">Total Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border p-3 text-center font-medium">S</td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-s-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-s')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-s-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-s')">
+                            </td>
+                            <td class="border p-3 text-center factor-25">× 25</td>
+                            <td class="border p-3 text-center total-value" id="coffee-s-total">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 text-center font-medium">M</td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-m-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-m')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-m-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-m')">
+                            </td>
+                            <td class="border p-3 text-center factor-25">× 25</td>
+                            <td class="border p-3 text-center total-value" id="coffee-m-total">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 text-center font-medium">L</td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-l-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-l')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-l-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-l')">
+                            </td>
+                            <td class="border p-3 text-center factor-25">× 25</td>
+                            <td class="border p-3 text-center total-value" id="coffee-l-total">0</td>
+                        </tr>
+                        <tr class="highlight-xl">
+                            <td class="border p-3 text-center font-medium">XL</td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-xl-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-xl')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="coffee-xl-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('coffee-xl')">
+                            </td>
+                            <td class="border p-3 text-center factor-15">× 15</td>
+                            <td class="border p-3 text-center total-value" id="coffee-xl-total">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 p-3 rounded coffee-header cappuccino-header flex items-center">
+                <i class="fas fa-glass-whiskey mr-2"></i> Cappuccino Cup
+            </h2>
+            
+            <div class="overflow-x-auto cappuccino-coffee rounded-lg p-4">
+                <table class="w-full border-collapse bg-white rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border p-3 w-1/6">Size</th>
+                            <th class="border p-3 w-1/4">Column 1 (Value A)</th>
+                            <th class="border p-3 w-1/4">Column 2 (Value B)</th>
+                            <th class="border p-3 w-1/6">Multiplier</th>
+                            <th class="border p-3 w-1/4">Total Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border p-3 text-center font-medium">S</td>
+                            <td class="border p-2">
+                                <input type="number" id="cappuccino-s-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cappuccino-s')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cappuccino-s-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cappuccino-s')">
+                            </td>
+                            <td class="border p-3 text-center factor-25">× 25</td>
+                            <td class="border p-3 text-center total-value" id="cappuccino-s-total">0</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 text-center font-medium">M</td>
+                            <td class="border p-2">
+                                <input type="number" id="cappuccino-m-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cappuccino-m')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cappuccino-m-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cappuccino-m')">
+                            </td>
+                            <td class="border p-3 text-center factor-25">× 25</td>
+                            <td class="border p-3 text-center total-value" id="cappuccino-m-total">0</td>
+                        </tr>
+                        <tr class="highlight-cappuccino-l">
+                            <td class="border p-3 text-center font-medium">L</td>
+                            <td class="border p-2">
+                                <input type="number" id="cappuccino-l-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cappuccino-l')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cappuccino-l-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cappuccino-l')">
+                            </td>
+                            <td class="border p-3 text-center factor-15">× 15</td>
+                            <td class="border p-3 text-center total-value" id="cappuccino-l-total">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 p-3 rounded coffee-header cold-header flex items-center">
+                <i class="fas fa-tint mr-2"></i> Cold Coffee Cup
+            </h2>
+            
+            <div class="overflow-x-auto cold-coffee rounded-lg p-4">
+                <table class="w-full border-collapse bg-white rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border p-3 w-1/6">Size</th>
+                            <th class="border p-3 w-1/4">Column 1 (Value A)</th>
+                            <th class="border p-3 w-1/4">Column 2 (Value B)</th>
+                            <th class="border p-3 w-1/6">Multiplier</th>
+                            <th class="border p-3 w-1/4">Total Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight-cold">
+                            <td class="border p-3 text-center font-medium">S</td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-s-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-s')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-s-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-s')">
+                            </td>
+                            <td class="border p-3 text-center factor-50">× 50</td>
+                            <td class="border p-3 text-center total-value" id="cold-s-total">0</td>
+                        </tr>
+                        <tr class="highlight-cold">
+                            <td class="border p-3 text-center font-medium">M</td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-m-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-m')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-m-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-m')">
+                            </td>
+                            <td class="border p-3 text-center factor-50">× 50</td>
+                            <td class="border p-3 text-center total-value" id="cold-m-total">0</td>
+                        </tr>
+                        <tr class="highlight-cold">
+                            <td class="border p-3 text-center font-medium">L</td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-l-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-l')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-l-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-l')">
+                            </td>
+                            <td class="border p-3 text-center factor-50">× 50</td>
+                            <td class="border p-3 text-center total-value" id="cold-l-total">0</td>
+                        </tr>
+                        <tr class="highlight-cold-xl">
+                            <td class="border p-3 text-center font-medium">XL</td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-xl-col1" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-xl')">
+                            </td>
+                            <td class="border p-2">
+                                <input type="number" id="cold-xl-col2" class="w-full p-2 border rounded" placeholder="Enter number" onchange="calculate('cold-xl')">
+                            </td>
+                            <td class="border p-3 text-center factor-25">× 25</td>
+                            <td class="border p-3 text-center total-value" id="cold-xl-total">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">Calculation Rules:</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <h4 class="font-bold mb-2 text-gray-700">Special Multipliers:</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-2"></span>
+                            Regular Coffee Cup (XL): <span class="font-semibold">15×</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="inline-block w-3 h-3 rounded-full bg-purple-500 mr-2"></span>
+                            Cappuccino Cup (L): <span class="font-semibold">15×</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="inline-block w-3 h-3 rounded-full bg-blue-500 mr-2"></span>
+                            Cold Coffee Cup (S, M, L): <span class="font-semibold">50×</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="inline-block w-3 h-3 rounded-full bg-blue-800 mr-2"></span>
+                            Cold Coffee Cup (XL): <span class="font-semibold">25×</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-2 text-gray-700">Formula:</h4>
+                    <p class="mb-3">For each size, the calculation works as follows:</p>
+                    <div class="bg-white p-4 rounded-md border border-gray-200 shadow-sm">
+                        <p class="font-mono">Total Result = Value A + (Value B × Multiplier)</p>
+                        <p class="text-sm text-gray-600 mt-2">Where the multiplier depends on the cup type and size as shown in the table.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Calculate function for all coffee types and sizes
+        function calculate(id) {
+            // Get column values
+            const col1Value = parseFloat(document.getElementById(`${id}-col1`).value) || 0;
+            const col2Value = parseFloat(document.getElementById(`${id}-col2`).value) || 0;
+            
+            // Determine multiplier based on coffee type and size
+            let multiplier = 25; // Default
+            
+            if (id === 'coffee-xl' || id === 'cappuccino-l') {
+                multiplier = 15;
+            } else if (id === 'cold-s' || id === 'cold-m' || id === 'cold-l') {
+                multiplier = 50;
+            } else if (id === 'cold-xl') {
+                multiplier = 25;
+            }
+            
+            // Calculate total
+            const total = col1Value + (col2Value * multiplier);
+            
+            // Update total display
+            document.getElementById(`${id}-total`).textContent = total.toLocaleString();
+        }
+        
+        // Initialize all calculations on page load
+        window.onload = function() {
+            const items = [
+                'coffee-s', 'coffee-m', 'coffee-l', 'coffee-xl',
+                'cappuccino-s', 'cappuccino-m', 'cappuccino-l',
+                'cold-s', 'cold-m', 'cold-l', 'cold-xl'
+            ];
+            
+            items.forEach(item => {
+                calculate(item);
+                
+                // Add input event listeners for real-time calculation
+                document.getElementById(`${item}-col1`).addEventListener('input', function() {
+                    calculate(item);
+                });
+                document.getElementById(`${item}-col2`).addEventListener('input', function() {
+                    calculate(item);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
